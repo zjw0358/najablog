@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bokeh/1.0.1/bokeh-gl.min.js.map"></script>
+	<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+    <title>直方图例子 - NajaBlog</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="http://518.is/Histogram-example.html">
+
+        <meta name="author" content="spark" />
+        <meta name="keywords" content="plot,hist,直方图,可视化" />
+        <meta name="description" content="直方图主要用来查看数据分布情况" />
+
+        <meta property="og:site_name" content="NajaBlog" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="直方图例子"/>
+        <meta property="og:url" content="http://518.is/Histogram-example.html"/>
+        <meta property="og:description" content="直方图主要用来查看数据分布情况"/>
+        <meta property="article:published_time" content="2018-11-26" />
+            <meta property="article:section" content="可视化" />
+            <meta property="article:tag" content="plot" />
+            <meta property="article:tag" content="hist" />
+            <meta property="article:tag" content="直方图" />
+            <meta property="article:tag" content="可视化" />
+            <meta property="article:author" content="spark" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://518.is/theme/css/bootstrap.cosmo.min.css" type="text/css"/>
+    <link href="http://518.is/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://518.is/theme/css/pygments/friendly.css" rel="stylesheet">
+    <link href="http://518.is/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://518.is/theme/css/style.css" type="text/css"/>
+
+        <link href="http://518.is/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="NajaBlog ATOM Feed"/>
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://518.is/" class="navbar-brand">
+NajaBlog            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                    <li><a href="/archives.html">Archives</a></li>
+                    <li><a href="/categories.html">Categories</a></li>
+                    <li><a href="/tags.html">Tags</a></li>
+                    <li><a href="/pages/about.html">About</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <ol class="breadcrumb">
+                <li><a href="http://518.is" title="NajaBlog"><i class="fa fa-home fa-lg"></i></a></li>
+                <li><a href="http://518.is/category/ke-shi-hua.html" title="可视化">可视化</a></li>
+                <li class="active">直方图例子</li>
+            </ol>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://518.is/Histogram-example.html"
+                       rel="bookmark"
+                       title="Permalink to 直方图例子">
+                        直方图例子
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2018-11-26T00:00:00+08:00"> 2018年11月26日(周一)</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://518.is/tag/plot.html">plot</a>
+        /
+	<a href="http://518.is/tag/hist.html">hist</a>
+        /
+	<a href="http://518.is/tag/zhi-fang-tu.html">直方图</a>
+        /
+	<a href="http://518.is/tag/ke-shi-hua.html">可视化</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+        			<div class="panel panel-default">
+            			<div class="panel-heading">Table of Contents</div>
+            			<div class="panel-body">
+            			<div id="toc"><ul><li><a class="toc-href" href="#读取数据" title="读取数据&para;">读取数据&para;</a></li><li><a class="toc-href" href="#查看数据" title="查看数据&para;">查看数据&para;</a></li><li><a class="toc-href" href="#可视化数据" title="可视化数据&para;">可视化数据&para;</a></li></ul></div>
+            			</div>
+       		 		</div>
+                
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>直方图主要用来查看数据分布情况</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="读取数据">读取数据<a class="anchor-link" href="#读取数据">&para;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> 
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'/Users/spark/Downloads/nyc_fare.csv'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="查看数据">查看数据<a class="anchor-link" href="#查看数据">&para;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[4]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>fare_amount</th>
+<th>surcharge</th>
+<th>mta_tax</th>
+<th>tip_amount</th>
+<th>tolls_amount</th>
+<th>total_amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>count</th>
+<td>846945.000000</td>
+<td>846945.000000</td>
+<td>846945.000000</td>
+<td>846945.00000</td>
+<td>846945.000000</td>
+<td>846945.000000</td>
+</tr>
+<tr>
+<th>mean</th>
+<td>12.190578</td>
+<td>0.320303</td>
+<td>0.499305</td>
+<td>1.34466</td>
+<td>0.232142</td>
+<td>14.587073</td>
+</tr>
+<tr>
+<th>std</th>
+<td>9.514150</td>
+<td>0.772642</td>
+<td>0.057844</td>
+<td>2.09149</td>
+<td>1.109164</td>
+<td>11.380950</td>
+</tr>
+<tr>
+<th>min</th>
+<td>-648.420000</td>
+<td>-1.000000</td>
+<td>-0.500000</td>
+<td>0.00000</td>
+<td>0.000000</td>
+<td>-52.500000</td>
+</tr>
+<tr>
+<th>25%</th>
+<td>6.500000</td>
+<td>0.000000</td>
+<td>0.500000</td>
+<td>0.00000</td>
+<td>0.000000</td>
+<td>8.000000</td>
+</tr>
+<tr>
+<th>50%</th>
+<td>9.500000</td>
+<td>0.000000</td>
+<td>0.500000</td>
+<td>1.00000</td>
+<td>0.000000</td>
+<td>11.000000</td>
+</tr>
+<tr>
+<th>75%</th>
+<td>14.000000</td>
+<td>0.500000</td>
+<td>0.500000</td>
+<td>2.00000</td>
+<td>0.000000</td>
+<td>16.500000</td>
+</tr>
+<tr>
+<th>max</th>
+<td>620.010000</td>
+<td>628.840000</td>
+<td>41.490000</td>
+<td>200.00000</td>
+<td>100.660000</td>
+<td>620.010000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>这里可以看到fare_amount的最大值虽然是620，但是75%分位数是14，所以大部分数字都应该不是很大，我们后面采用50来观察他的分布情况</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="可视化数据">可视化数据<a class="anchor-link" href="#可视化数据">&para;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bin_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="mf">50.</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">fare_amount</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="n">bin_array</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[58]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x116bdff60&gt;</pre>
+</div>
+</div>
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+">
+</img></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>this is english</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>这是英语</p>
+</div>
+</div>
+</div>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js';
+    mathjaxscript.src += '?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: 'center'," +
+        "    displayIndent: '0em'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['$','$'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        processEnvironments: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        " linebreaks: { automatic: true, width: '95% container' }, " +
+        "    } " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+				<!-- Neighbor content -->
+			     <ul class="pager">
+			         <li class="previous">
+			             <a href="http://518.is/Dynamic-visualization-of-Python-stream-data.html">
+			                 ← python流数据动态可视化
+			             </a>
+			         </li>
+			         <li class="next"> 
+			             <a href="http://518.is/Toolbox-tutorial-for-data-scientists.html">
+			                 数据科学家的工具箱教程 →
+			             </a>
+			         </li>
+			    </ul>
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="http://518.is/china-stock-p_change-histogram.html">A股涨跌幅直方图</a></li>
+        <li><a href="http://518.is/Toolbox-tutorial-for-data-scientists.html">数据科学家的工具箱教程</a></li>
+        <li><a href="http://518.is/Dynamic-visualization-of-Python-stream-data.html">python流数据动态可视化</a></li>
+        <li><a href="http://518.is/China-stock-p_change-scatter.html">A股涨跌情况散点图</a></li>
+    </ul>
+</section>
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'najablog'; // required: replace example with your forum shortname
+
+            var disqus_config = function () {
+                this.language = "zh";
+
+                        this.page.identifier = '2018-11-26-Histogram-example';
+                        this.page.url = 'http://518.is/Histogram-example.html';
+            };
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="http://weibo.com/fxmyk"><i class="fa fa-朝天吼微博-square fa-lg"></i> 朝天吼微博</a></li>
+    <li class="list-group-item"><a href="#"><i class="fa fa-another-social-link-square fa-lg"></i> Another social link</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://sostc.org/" target="_blank">公司朝天吼官网</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://shop101144854.taobao.com" target="_blank">数据产品淘宝店</a>
+    </li>
+    <li class="list-group-item">
+      <a href="#" target="_blank">You can ask me to modify those links </a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">
+			&copy; 2018 spark
+            &middot;  <a href="/ipython" target="_blank">Notebook入口</a>,
+            <a href="http://data.518.is/data/jinshi" target="_blank">进士股票</a>,
+            <a href="http://data.518.is/zf" target="_blank">涨幅统计</a>                <p><small>  <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh"><img alt="Creative Commons License" style="border-width:0" src="//i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
+    Content
+  licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh">Creative Commons Attribution-ShareAlike 4.0 International License</a>, except where indicated otherwise.
+</small></p>
+         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://518.is/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://518.is/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://518.is/theme/js/respond.min.js"></script>
+
+
+    <!-- Disqus -->
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'najablog'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <!-- End Disqus Code -->
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-4002013-9']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+
+
+</body>
+</html>

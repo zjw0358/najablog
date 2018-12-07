@@ -1,0 +1,4533 @@
+<!DOCTYPE html>
+<html lang="zh" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bokeh/1.0.1/bokeh-gl.min.js.map"></script>
+	<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+    <title>Pandas精简教程 - NajaBlog</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="http://518.is/Pandas-streamlined-tutorials.html">
+
+        <meta name="author" content="spark" />
+        <meta name="keywords" content="pandas,stock" />
+        <meta name="description" content="只放了部分出来" />
+
+        <meta property="og:site_name" content="NajaBlog" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Pandas精简教程"/>
+        <meta property="og:url" content="http://518.is/Pandas-streamlined-tutorials.html"/>
+        <meta property="og:description" content="只放了部分出来"/>
+        <meta property="article:published_time" content="2018-12-07" />
+            <meta property="article:section" content="数据分析" />
+            <meta property="article:tag" content="pandas" />
+            <meta property="article:tag" content="stock" />
+            <meta property="article:author" content="spark" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://518.is/theme/css/bootstrap.cosmo.min.css" type="text/css"/>
+    <link href="http://518.is/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://518.is/theme/css/pygments/friendly.css" rel="stylesheet">
+    <link href="http://518.is/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://518.is/theme/css/style.css" type="text/css"/>
+
+        <link href="http://518.is/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="NajaBlog ATOM Feed"/>
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://518.is/" class="navbar-brand">
+NajaBlog            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                    <li><a href="/archives.html">Archives</a></li>
+                    <li><a href="/categories.html">Categories</a></li>
+                    <li><a href="/tags.html">Tags</a></li>
+                    <li><a href="/pages/about.html">About</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <ol class="breadcrumb">
+                <li><a href="http://518.is" title="NajaBlog"><i class="fa fa-home fa-lg"></i></a></li>
+                <li><a href="http://518.is/category/shu-ju-fen-xi.html" title="数据分析">数据分析</a></li>
+                <li class="active">Pandas精简教程</li>
+            </ol>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://518.is/Pandas-streamlined-tutorials.html"
+                       rel="bookmark"
+                       title="Permalink to Pandas精简教程">
+                        Pandas精简教程
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2018-12-07T00:00:00+08:00"> 2018年12月07日(周五)</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://518.is/tag/pandas.html">pandas</a>
+        /
+	<a href="http://518.is/tag/stock.html">stock</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+        			<div class="panel panel-default">
+            			<div class="panel-heading">Table of Contents</div>
+            			<div class="panel-body">
+            			<div id="toc"><ul><li><a class="toc-href" href="#前言" title="前言&para;">前言&para;</a></li><li><a class="toc-href" href="#API获取测试数据" title="API获取测试数据&para;">API获取测试数据&para;</a></li><li><a class="toc-href" href="#DataFrame数据结构" title="DataFrame数据结构&para;">DataFrame数据结构&para;</a></li><li><a class="toc-href" href="#数据切片" title="数据切片&para;">数据切片&para;</a></li><li><a class="toc-href" href="#Dataframe索引" title="Dataframe索引&para;">Dataframe索引&para;</a></li><li><a class="toc-href" href="#输出文件和读取文件" title="输出文件和读取文件&para;">输出文件和读取文件&para;</a></li><li><a class="toc-href" href="#复杂查询" title="复杂查询&para;">复杂查询&para;</a></li><li><a class="toc-href" href="#索引" title="索引&para;">索引&para;</a></li><li><a class="toc-href" href="#缺失值处理" title="缺失值处理&para;">缺失值处理&para;</a></li><li><a class="toc-href" href="#合并Dataframes" title="合并Dataframes&para;">合并Dataframes&para;</a></li><li><a class="toc-href" href="#合并和重组" title="合并和重组&para;">合并和重组&para;</a></li><li><a class="toc-href" href="#时间日期处理" title="时间日期处理&para;">时间日期处理&para;</a></li><li><a class="toc-href" href="#Datetime" title="Datetime&para;">Datetime&para;</a><ul><li><a class="toc-href" href="#Converting-to-Datetime" title="Converting to Datetime&para;">Converting to Datetime&para;</a></li><li><a class="toc-href" href="#Timedeltas" title="Timedeltas&para;">Timedeltas&para;</a></li><li><a class="toc-href" href="#respmple" title="respmple&para;">respmple&para;</a></li></ul></li></ul></div>
+            			</div>
+       		 		</div>
+                
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>只放了部分出来</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="前言">前言<a class="anchor-link" href="#前言">&para;</a></h3><ul>
+<li>python理念:Simple is better than complex,不浪费学习者的宝贵时间。</li>
+<li>官方文档需要掌握了语言高阶抽象能力才能看懂，践习最好的方式是直接看例子。</li>
+<li>官方文档很细致，但是内容太多，适合当字典查。</li>
+<li>内容主要包含数据获取 、输出、查询、索引、格式转换、增加新列、时间处理、去重复去空值、排序、透视重组、曲线图、散点图</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="API获取测试数据">API获取测试数据<a class="anchor-link" href="#API获取测试数据">&para;</a></h3><p>这里为方便，我们使用tushare库来获取数据来供练习使用，想要先安装tushare</p>
+<blockquote><p>pip install tushare</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="DataFrame数据结构">DataFrame数据结构<a class="anchor-link" href="#DataFrame数据结构">&para;</a></h3><p>&nbsp;您将通过学习如何组织，重塑和聚合多个数据集来回答您的具体问题，从而磨练您的pandas技能。
+&nbsp;<strong>pandas</strong>：
+具有标记轴（行和列）的二维大小可变，可能异构的表格数据结构。算术运算在行标签和列标签上对齐。可以被认为是Series对象的类似dict的容器。主要的pandas数据结构。</p>
+<p>pandas有很多任务，包括：</p>
+<p>读/写许多不同的数据格式
+选择数据子集
+跨行和向下列计算
+查找并填充缺失的数据
+将操作应用于数据中的独立组
+将数据重塑为不同的形式
+将多个数据集组合在一起
+高级时间序列功能
+通过matplotlib和seaborn可视化
+尽管pandas非常强大，但它并不能为整个数据科学管道提供功能。 Pandas通常是用于在数据捕获和存储以及数据建模和预测之间压缩的数据探索和清理的中间工具。</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">tushare</span> <span class="k">as</span> <span class="nn">ts</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>获取数据，使用head查看同步的数据</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">get_day_all</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[2]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>code</th>
+<th>name</th>
+<th>p_change</th>
+<th>price</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>pe</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>002305</td>
+<td>南国置业</td>
+<td>10.20</td>
+<td>2.70</td>
+<td>0.25</td>
+<td>2.54</td>
+<td>2.70</td>
+<td>2.48</td>
+<td>2.45</td>
+<td>118.19</td>
+<td>...</td>
+<td>16.23</td>
+<td>43.83</td>
+<td>46.82</td>
+<td>2.64</td>
+<td>12.64</td>
+<td>1128.0</td>
+<td>0.0011</td>
+<td>8.87</td>
+<td>4.25</td>
+<td>-26.43</td>
+</tr>
+<tr>
+<th>1</th>
+<td>002181</td>
+<td>粤 传 媒</td>
+<td>10.10</td>
+<td>4.47</td>
+<td>0.41</td>
+<td>4.10</td>
+<td>4.47</td>
+<td>3.99</td>
+<td>4.06</td>
+<td>143.59</td>
+<td>...</td>
+<td>11.34</td>
+<td>50.71</td>
+<td>51.90</td>
+<td>4.32</td>
+<td>12.54</td>
+<td>3179.0</td>
+<td>0.0017</td>
+<td>12.03</td>
+<td>23.48</td>
+<td>-8.59</td>
+</tr>
+<tr>
+<th>2</th>
+<td>002703</td>
+<td>浙江世宝</td>
+<td>10.09</td>
+<td>4.69</td>
+<td>0.43</td>
+<td>4.28</td>
+<td>4.69</td>
+<td>4.27</td>
+<td>4.26</td>
+<td>0.00</td>
+<td>...</td>
+<td>5.53</td>
+<td>25.94</td>
+<td>26.87</td>
+<td>4.61</td>
+<td>12.53</td>
+<td>2091.0</td>
+<td>0.0027</td>
+<td>9.84</td>
+<td>4.22</td>
+<td>-18.43</td>
+</tr>
+<tr>
+<th>3</th>
+<td>002502</td>
+<td>骅威文化</td>
+<td>10.05</td>
+<td>4.71</td>
+<td>0.43</td>
+<td>4.32</td>
+<td>4.71</td>
+<td>4.32</td>
+<td>4.28</td>
+<td>90.84</td>
+<td>...</td>
+<td>6.21</td>
+<td>29.27</td>
+<td>40.50</td>
+<td>4.60</td>
+<td>12.49</td>
+<td>1610.0</td>
+<td>0.0034</td>
+<td>9.03</td>
+<td>-18.37</td>
+<td>-18.37</td>
+</tr>
+<tr>
+<th>4</th>
+<td>002098</td>
+<td>浔兴股份</td>
+<td>10.04</td>
+<td>7.67</td>
+<td>0.70</td>
+<td>7.07</td>
+<td>7.67</td>
+<td>7.07</td>
+<td>6.97</td>
+<td>43.38</td>
+<td>...</td>
+<td>3.10</td>
+<td>23.78</td>
+<td>27.46</td>
+<td>7.46</td>
+<td>12.48</td>
+<td>3510.0</td>
+<td>0.0036</td>
+<td>8.49</td>
+<td>-52.97</td>
+<td>-52.97</td>
+</tr>
+</tbody>
+</table>
+<p>5 rows &times; 30 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="数据切片">数据切片<a class="anchor-link" href="#数据切片">&para;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[4]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>code               002181
+name                粤 传 媒
+p_change             10.1
+price                4.47
+change               0.41
+open                  4.1
+high                 4.47
+low                  3.99
+preprice             4.06
+pe                 143.59
+volratio             2.18
+turnover             5.29
+range               11.82
+volume             600263
+selling            242759
+buying             357503
+amount         2.5942e+08
+totals              11.61
+industry              出版业
+area                   广东
+floats              11.34
+fvalues             50.71
+abvalues             51.9
+avgprice             4.32
+strength            12.54
+activity             3179
+avgturnover        0.0017
+attack              12.03
+interval3           23.48
+interval6           -8.59
+Name: 1, dtype: object</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[5]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>pandas.core.series.Series</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[6]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>code</th>
+<th>name</th>
+<th>p_change</th>
+<th>price</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>pe</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>1</th>
+<td>002181</td>
+<td>粤 传 媒</td>
+<td>10.10</td>
+<td>4.47</td>
+<td>0.41</td>
+<td>4.10</td>
+<td>4.47</td>
+<td>3.99</td>
+<td>4.06</td>
+<td>143.59</td>
+<td>...</td>
+<td>11.34</td>
+<td>50.71</td>
+<td>51.90</td>
+<td>4.32</td>
+<td>12.54</td>
+<td>3179.0</td>
+<td>0.0017</td>
+<td>12.03</td>
+<td>23.48</td>
+<td>-8.59</td>
+</tr>
+<tr>
+<th>2</th>
+<td>002703</td>
+<td>浙江世宝</td>
+<td>10.09</td>
+<td>4.69</td>
+<td>0.43</td>
+<td>4.28</td>
+<td>4.69</td>
+<td>4.27</td>
+<td>4.26</td>
+<td>0.00</td>
+<td>...</td>
+<td>5.53</td>
+<td>25.94</td>
+<td>26.87</td>
+<td>4.61</td>
+<td>12.53</td>
+<td>2091.0</td>
+<td>0.0027</td>
+<td>9.84</td>
+<td>4.22</td>
+<td>-18.43</td>
+</tr>
+</tbody>
+</table>
+<p>2 rows &times; 30 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[7]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>code</th>
+<td>002305</td>
+<td>002181</td>
+<td>002703</td>
+<td>002502</td>
+</tr>
+<tr>
+<th>name</th>
+<td>南国置业</td>
+<td>粤 传 媒</td>
+<td>浙江世宝</td>
+<td>骅威文化</td>
+</tr>
+<tr>
+<th>p_change</th>
+<td>10.2</td>
+<td>10.1</td>
+<td>10.09</td>
+<td>10.05</td>
+</tr>
+<tr>
+<th>price</th>
+<td>2.7</td>
+<td>4.47</td>
+<td>4.69</td>
+<td>4.71</td>
+</tr>
+<tr>
+<th>change</th>
+<td>0.25</td>
+<td>0.41</td>
+<td>0.43</td>
+<td>0.43</td>
+</tr>
+<tr>
+<th>open</th>
+<td>2.54</td>
+<td>4.1</td>
+<td>4.28</td>
+<td>4.32</td>
+</tr>
+<tr>
+<th>high</th>
+<td>2.7</td>
+<td>4.47</td>
+<td>4.69</td>
+<td>4.71</td>
+</tr>
+<tr>
+<th>low</th>
+<td>2.48</td>
+<td>3.99</td>
+<td>4.27</td>
+<td>4.32</td>
+</tr>
+<tr>
+<th>preprice</th>
+<td>2.45</td>
+<td>4.06</td>
+<td>4.26</td>
+<td>4.28</td>
+</tr>
+<tr>
+<th>pe</th>
+<td>118.19</td>
+<td>143.59</td>
+<td>0</td>
+<td>90.84</td>
+</tr>
+<tr>
+<th>volratio</th>
+<td>2.48</td>
+<td>2.18</td>
+<td>2.31</td>
+<td>0.85</td>
+</tr>
+<tr>
+<th>turnover</th>
+<td>1.24</td>
+<td>5.29</td>
+<td>5.56</td>
+<td>5.49</td>
+</tr>
+<tr>
+<th>range</th>
+<td>8.98</td>
+<td>11.82</td>
+<td>9.86</td>
+<td>9.11</td>
+</tr>
+<tr>
+<th>volume</th>
+<td>201709</td>
+<td>600263</td>
+<td>307232</td>
+<td>341329</td>
+</tr>
+<tr>
+<th>selling</th>
+<td>133382</td>
+<td>242759</td>
+<td>196713</td>
+<td>246157</td>
+</tr>
+<tr>
+<th>buying</th>
+<td>68326</td>
+<td>357503</td>
+<td>110518</td>
+<td>95171</td>
+</tr>
+<tr>
+<th>amount</th>
+<td>5.33408e+07</td>
+<td>2.5942e+08</td>
+<td>1.41513e+08</td>
+<td>1.57103e+08</td>
+</tr>
+<tr>
+<th>totals</th>
+<td>17.34</td>
+<td>11.61</td>
+<td>7.9</td>
+<td>8.6</td>
+</tr>
+<tr>
+<th>industry</th>
+<td>区域地产</td>
+<td>出版业</td>
+<td>汽车配件</td>
+<td>影视音像</td>
+</tr>
+<tr>
+<th>area</th>
+<td>湖北</td>
+<td>广东</td>
+<td>浙江</td>
+<td>广东</td>
+</tr>
+<tr>
+<th>floats</th>
+<td>16.23</td>
+<td>11.34</td>
+<td>5.53</td>
+<td>6.21</td>
+</tr>
+<tr>
+<th>fvalues</th>
+<td>43.83</td>
+<td>50.71</td>
+<td>25.94</td>
+<td>29.27</td>
+</tr>
+<tr>
+<th>abvalues</th>
+<td>46.82</td>
+<td>51.9</td>
+<td>26.87</td>
+<td>40.5</td>
+</tr>
+<tr>
+<th>avgprice</th>
+<td>2.64</td>
+<td>4.32</td>
+<td>4.61</td>
+<td>4.6</td>
+</tr>
+<tr>
+<th>strength</th>
+<td>12.64</td>
+<td>12.54</td>
+<td>12.53</td>
+<td>12.49</td>
+</tr>
+<tr>
+<th>activity</th>
+<td>1128</td>
+<td>3179</td>
+<td>2091</td>
+<td>1610</td>
+</tr>
+<tr>
+<th>avgturnover</th>
+<td>0.0011</td>
+<td>0.0017</td>
+<td>0.0027</td>
+<td>0.0034</td>
+</tr>
+<tr>
+<th>attack</th>
+<td>8.87</td>
+<td>12.03</td>
+<td>9.84</td>
+<td>9.03</td>
+</tr>
+<tr>
+<th>interval3</th>
+<td>4.25</td>
+<td>23.48</td>
+<td>4.22</td>
+<td>-18.37</td>
+</tr>
+<tr>
+<th>interval6</th>
+<td>-26.43</td>
+<td>-8.59</td>
+<td>-18.43</td>
+<td>-18.37</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'code'</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[8]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>0    002305
+1    002181
+2    002703
+3    002502
+Name: code, dtype: object</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">'code'</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[9]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>0    002305
+1    002181
+2    002703
+3    002502
+Name: code, dtype: object</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">'code'</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[10]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>'002181'</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="mi">2</span><span class="p">,[</span><span class="s1">'code'</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[11]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>code</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>002305</td>
+<td>南国置业</td>
+</tr>
+<tr>
+<th>1</th>
+<td>002181</td>
+<td>粤 传 媒</td>
+</tr>
+<tr>
+<th>2</th>
+<td>002703</td>
+<td>浙江世宝</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[12]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>code</th>
+<th>name</th>
+<th>p_change</th>
+<th>price</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>pe</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>002305</td>
+<td>南国置业</td>
+<td>10.20</td>
+<td>2.70</td>
+<td>0.25</td>
+<td>2.54</td>
+<td>2.70</td>
+<td>2.48</td>
+<td>2.45</td>
+<td>118.19</td>
+<td>...</td>
+<td>16.23</td>
+<td>43.83</td>
+<td>46.82</td>
+<td>2.64</td>
+<td>12.64</td>
+<td>1128.0</td>
+<td>0.0011</td>
+<td>8.87</td>
+<td>4.25</td>
+<td>-26.43</td>
+</tr>
+<tr>
+<th>2</th>
+<td>002703</td>
+<td>浙江世宝</td>
+<td>10.09</td>
+<td>4.69</td>
+<td>0.43</td>
+<td>4.28</td>
+<td>4.69</td>
+<td>4.27</td>
+<td>4.26</td>
+<td>0.00</td>
+<td>...</td>
+<td>5.53</td>
+<td>25.94</td>
+<td>26.87</td>
+<td>4.61</td>
+<td>12.53</td>
+<td>2091.0</td>
+<td>0.0027</td>
+<td>9.84</td>
+<td>4.22</td>
+<td>-18.43</td>
+</tr>
+<tr>
+<th>3</th>
+<td>002502</td>
+<td>骅威文化</td>
+<td>10.05</td>
+<td>4.71</td>
+<td>0.43</td>
+<td>4.32</td>
+<td>4.71</td>
+<td>4.32</td>
+<td>4.28</td>
+<td>90.84</td>
+<td>...</td>
+<td>6.21</td>
+<td>29.27</td>
+<td>40.50</td>
+<td>4.60</td>
+<td>12.49</td>
+<td>1610.0</td>
+<td>0.0034</td>
+<td>9.03</td>
+<td>-18.37</td>
+<td>-18.37</td>
+</tr>
+</tbody>
+</table>
+<p>3 rows &times; 30 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[13]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>code</th>
+<th>name</th>
+<th>p_change</th>
+<th>price</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>pe</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>002305</td>
+<td>南国置业</td>
+<td>10.20</td>
+<td>2.70</td>
+<td>0.25</td>
+<td>2.54</td>
+<td>2.70</td>
+<td>2.48</td>
+<td>2.45</td>
+<td>118.19</td>
+<td>...</td>
+<td>16.23</td>
+<td>43.83</td>
+<td>46.82</td>
+<td>2.64</td>
+<td>12.64</td>
+<td>1128.0</td>
+<td>0.0011</td>
+<td>8.87</td>
+<td>4.25</td>
+<td>-26.43</td>
+</tr>
+<tr>
+<th>1</th>
+<td>002181</td>
+<td>粤 传 媒</td>
+<td>10.10</td>
+<td>4.47</td>
+<td>0.41</td>
+<td>4.10</td>
+<td>4.47</td>
+<td>3.99</td>
+<td>4.06</td>
+<td>143.59</td>
+<td>...</td>
+<td>11.34</td>
+<td>50.71</td>
+<td>51.90</td>
+<td>4.32</td>
+<td>12.54</td>
+<td>3179.0</td>
+<td>0.0017</td>
+<td>12.03</td>
+<td>23.48</td>
+<td>-8.59</td>
+</tr>
+<tr>
+<th>2</th>
+<td>002703</td>
+<td>浙江世宝</td>
+<td>10.09</td>
+<td>4.69</td>
+<td>0.43</td>
+<td>4.28</td>
+<td>4.69</td>
+<td>4.27</td>
+<td>4.26</td>
+<td>0.00</td>
+<td>...</td>
+<td>5.53</td>
+<td>25.94</td>
+<td>26.87</td>
+<td>4.61</td>
+<td>12.53</td>
+<td>2091.0</td>
+<td>0.0027</td>
+<td>9.84</td>
+<td>4.22</td>
+<td>-18.43</td>
+</tr>
+<tr>
+<th>3</th>
+<td>002502</td>
+<td>骅威文化</td>
+<td>10.05</td>
+<td>4.71</td>
+<td>0.43</td>
+<td>4.32</td>
+<td>4.71</td>
+<td>4.32</td>
+<td>4.28</td>
+<td>90.84</td>
+<td>...</td>
+<td>6.21</td>
+<td>29.27</td>
+<td>40.50</td>
+<td>4.60</td>
+<td>12.49</td>
+<td>1610.0</td>
+<td>0.0034</td>
+<td>9.03</td>
+<td>-18.37</td>
+<td>-18.37</td>
+</tr>
+</tbody>
+</table>
+<p>4 rows &times; 30 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">copy_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">copy_df</span> <span class="o">=</span> <span class="n">copy_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">copy_df</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[14]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>code</th>
+<th>name</th>
+<th>p_change</th>
+<th>price</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>pe</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>002305</td>
+<td>南国置业</td>
+<td>10.20</td>
+<td>2.70</td>
+<td>0.25</td>
+<td>2.54</td>
+<td>2.70</td>
+<td>2.48</td>
+<td>2.45</td>
+<td>118.19</td>
+<td>...</td>
+<td>16.23</td>
+<td>43.83</td>
+<td>46.82</td>
+<td>2.64</td>
+<td>12.64</td>
+<td>1128.0</td>
+<td>0.0011</td>
+<td>8.87</td>
+<td>4.25</td>
+<td>-26.43</td>
+</tr>
+<tr>
+<th>2</th>
+<td>002703</td>
+<td>浙江世宝</td>
+<td>10.09</td>
+<td>4.69</td>
+<td>0.43</td>
+<td>4.28</td>
+<td>4.69</td>
+<td>4.27</td>
+<td>4.26</td>
+<td>0.00</td>
+<td>...</td>
+<td>5.53</td>
+<td>25.94</td>
+<td>26.87</td>
+<td>4.61</td>
+<td>12.53</td>
+<td>2091.0</td>
+<td>0.0027</td>
+<td>9.84</td>
+<td>4.22</td>
+<td>-18.43</td>
+</tr>
+<tr>
+<th>3</th>
+<td>002502</td>
+<td>骅威文化</td>
+<td>10.05</td>
+<td>4.71</td>
+<td>0.43</td>
+<td>4.32</td>
+<td>4.71</td>
+<td>4.32</td>
+<td>4.28</td>
+<td>90.84</td>
+<td>...</td>
+<td>6.21</td>
+<td>29.27</td>
+<td>40.50</td>
+<td>4.60</td>
+<td>12.49</td>
+<td>1610.0</td>
+<td>0.0034</td>
+<td>9.03</td>
+<td>-18.37</td>
+<td>-18.37</td>
+</tr>
+</tbody>
+</table>
+<p>3 rows &times; 30 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">copy_df</span><span class="o">.</span><span class="n">drop</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[15]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;bound method DataFrame.drop of      code  name  p_change  price  change  open  high   low  preprice      pe  \
+0  002305  南国置业     10.20   2.70    0.25  2.54  2.70  2.48      2.45  118.19   
+2  002703  浙江世宝     10.09   4.69    0.43  4.28  4.69  4.27      4.26    0.00   
+3  002502  骅威文化     10.05   4.71    0.43  4.32  4.71  4.32      4.28   90.84   
+
+     ...     floats  fvalues  abvalues  avgprice  strength  activity  \
+0    ...      16.23    43.83     46.82      2.64     12.64    1128.0   
+2    ...       5.53    25.94     26.87      4.61     12.53    2091.0   
+3    ...       6.21    29.27     40.50      4.60     12.49    1610.0   
+
+   avgturnover  attack interval3 interval6  
+0       0.0011    8.87      4.25    -26.43  
+2       0.0027    9.84      4.22    -18.43  
+3       0.0034    9.03    -18.37    -18.37  
+
+[3 rows x 30 columns]&gt;</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">del</span> <span class="n">copy_df</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span>
+<span class="n">copy_df</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[16]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>code</th>
+<th>p_change</th>
+<th>price</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>pe</th>
+<th>volratio</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>002305</td>
+<td>10.20</td>
+<td>2.70</td>
+<td>0.25</td>
+<td>2.54</td>
+<td>2.70</td>
+<td>2.48</td>
+<td>2.45</td>
+<td>118.19</td>
+<td>2.48</td>
+<td>...</td>
+<td>16.23</td>
+<td>43.83</td>
+<td>46.82</td>
+<td>2.64</td>
+<td>12.64</td>
+<td>1128.0</td>
+<td>0.0011</td>
+<td>8.87</td>
+<td>4.25</td>
+<td>-26.43</td>
+</tr>
+<tr>
+<th>2</th>
+<td>002703</td>
+<td>10.09</td>
+<td>4.69</td>
+<td>0.43</td>
+<td>4.28</td>
+<td>4.69</td>
+<td>4.27</td>
+<td>4.26</td>
+<td>0.00</td>
+<td>2.31</td>
+<td>...</td>
+<td>5.53</td>
+<td>25.94</td>
+<td>26.87</td>
+<td>4.61</td>
+<td>12.53</td>
+<td>2091.0</td>
+<td>0.0027</td>
+<td>9.84</td>
+<td>4.22</td>
+<td>-18.43</td>
+</tr>
+<tr>
+<th>3</th>
+<td>002502</td>
+<td>10.05</td>
+<td>4.71</td>
+<td>0.43</td>
+<td>4.32</td>
+<td>4.71</td>
+<td>4.32</td>
+<td>4.28</td>
+<td>90.84</td>
+<td>0.85</td>
+<td>...</td>
+<td>6.21</td>
+<td>29.27</td>
+<td>40.50</td>
+<td>4.60</td>
+<td>12.49</td>
+<td>1610.0</td>
+<td>0.0034</td>
+<td>9.03</td>
+<td>-18.37</td>
+<td>-18.37</td>
+</tr>
+</tbody>
+</table>
+<p>3 rows &times; 29 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">'p_change'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[17]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>code</th>
+<th>name</th>
+<th>p_change</th>
+<th>price</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>pe</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>002305</td>
+<td>南国置业</td>
+<td>None</td>
+<td>2.70</td>
+<td>0.25</td>
+<td>2.54</td>
+<td>2.70</td>
+<td>2.48</td>
+<td>2.45</td>
+<td>118.19</td>
+<td>...</td>
+<td>16.23</td>
+<td>43.83</td>
+<td>46.82</td>
+<td>2.64</td>
+<td>12.64</td>
+<td>1128.0</td>
+<td>0.0011</td>
+<td>8.87</td>
+<td>4.25</td>
+<td>-26.43</td>
+</tr>
+<tr>
+<th>1</th>
+<td>002181</td>
+<td>粤 传 媒</td>
+<td>None</td>
+<td>4.47</td>
+<td>0.41</td>
+<td>4.10</td>
+<td>4.47</td>
+<td>3.99</td>
+<td>4.06</td>
+<td>143.59</td>
+<td>...</td>
+<td>11.34</td>
+<td>50.71</td>
+<td>51.90</td>
+<td>4.32</td>
+<td>12.54</td>
+<td>3179.0</td>
+<td>0.0017</td>
+<td>12.03</td>
+<td>23.48</td>
+<td>-8.59</td>
+</tr>
+<tr>
+<th>2</th>
+<td>002703</td>
+<td>浙江世宝</td>
+<td>None</td>
+<td>4.69</td>
+<td>0.43</td>
+<td>4.28</td>
+<td>4.69</td>
+<td>4.27</td>
+<td>4.26</td>
+<td>0.00</td>
+<td>...</td>
+<td>5.53</td>
+<td>25.94</td>
+<td>26.87</td>
+<td>4.61</td>
+<td>12.53</td>
+<td>2091.0</td>
+<td>0.0027</td>
+<td>9.84</td>
+<td>4.22</td>
+<td>-18.43</td>
+</tr>
+<tr>
+<th>3</th>
+<td>002502</td>
+<td>骅威文化</td>
+<td>None</td>
+<td>4.71</td>
+<td>0.43</td>
+<td>4.32</td>
+<td>4.71</td>
+<td>4.32</td>
+<td>4.28</td>
+<td>90.84</td>
+<td>...</td>
+<td>6.21</td>
+<td>29.27</td>
+<td>40.50</td>
+<td>4.60</td>
+<td>12.49</td>
+<td>1610.0</td>
+<td>0.0034</td>
+<td>9.03</td>
+<td>-18.37</td>
+<td>-18.37</td>
+</tr>
+</tbody>
+</table>
+<p>4 rows &times; 30 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">costs</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span>
+<span class="n">costs</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[18]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>0    2.70
+1    4.47
+2    4.69
+3    4.71
+Name: price, dtype: float64</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">costs</span><span class="o">+=</span><span class="mi">2</span>
+<span class="n">costs</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[19]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>0    4.70
+1    6.47
+2    6.69
+3    6.71
+Name: price, dtype: float64</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[20]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>code</th>
+<th>name</th>
+<th>p_change</th>
+<th>price</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>pe</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>002305</td>
+<td>南国置业</td>
+<td>None</td>
+<td>4.70</td>
+<td>0.25</td>
+<td>2.54</td>
+<td>2.70</td>
+<td>2.48</td>
+<td>2.45</td>
+<td>118.19</td>
+<td>...</td>
+<td>16.23</td>
+<td>43.83</td>
+<td>46.82</td>
+<td>2.64</td>
+<td>12.64</td>
+<td>1128.0</td>
+<td>0.0011</td>
+<td>8.87</td>
+<td>4.25</td>
+<td>-26.43</td>
+</tr>
+<tr>
+<th>1</th>
+<td>002181</td>
+<td>粤 传 媒</td>
+<td>None</td>
+<td>6.47</td>
+<td>0.41</td>
+<td>4.10</td>
+<td>4.47</td>
+<td>3.99</td>
+<td>4.06</td>
+<td>143.59</td>
+<td>...</td>
+<td>11.34</td>
+<td>50.71</td>
+<td>51.90</td>
+<td>4.32</td>
+<td>12.54</td>
+<td>3179.0</td>
+<td>0.0017</td>
+<td>12.03</td>
+<td>23.48</td>
+<td>-8.59</td>
+</tr>
+<tr>
+<th>2</th>
+<td>002703</td>
+<td>浙江世宝</td>
+<td>None</td>
+<td>6.69</td>
+<td>0.43</td>
+<td>4.28</td>
+<td>4.69</td>
+<td>4.27</td>
+<td>4.26</td>
+<td>0.00</td>
+<td>...</td>
+<td>5.53</td>
+<td>25.94</td>
+<td>26.87</td>
+<td>4.61</td>
+<td>12.53</td>
+<td>2091.0</td>
+<td>0.0027</td>
+<td>9.84</td>
+<td>4.22</td>
+<td>-18.43</td>
+</tr>
+<tr>
+<th>3</th>
+<td>002502</td>
+<td>骅威文化</td>
+<td>None</td>
+<td>6.71</td>
+<td>0.43</td>
+<td>4.32</td>
+<td>4.71</td>
+<td>4.32</td>
+<td>4.28</td>
+<td>90.84</td>
+<td>...</td>
+<td>6.21</td>
+<td>29.27</td>
+<td>40.50</td>
+<td>4.60</td>
+<td>12.49</td>
+<td>1610.0</td>
+<td>0.0034</td>
+<td>9.03</td>
+<td>-18.37</td>
+<td>-18.37</td>
+</tr>
+</tbody>
+</table>
+<p>4 rows &times; 30 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Dataframe索引">Dataframe索引<a class="anchor-link" href="#Dataframe索引">&para;</a></h3><p>作为数据科学家，您经常会发现您需要的数据不在一个文件中。它可能分布在许多文本文件，电子表格或数据库中。您希望能够将感兴趣的数据导入为DataFrame集合，并找出如何将它们组合起来以回答您的核心问题。</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="输出文件和读取文件">输出文件和读取文件<a class="anchor-link" href="#输出文件和读取文件">&para;</a></h3><p>保存成csv</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">'/tmp/tmp.csv'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>从csv读取数据</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'/tmp/tmp.csv'</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[22]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Unnamed: 0</th>
+<th>code</th>
+<th>name</th>
+<th>p_change</th>
+<th>price</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>0</td>
+<td>2305</td>
+<td>南国置业</td>
+<td>NaN</td>
+<td>4.70</td>
+<td>0.25</td>
+<td>2.54</td>
+<td>2.70</td>
+<td>2.48</td>
+<td>2.45</td>
+<td>...</td>
+<td>16.23</td>
+<td>43.83</td>
+<td>46.82</td>
+<td>2.64</td>
+<td>12.64</td>
+<td>1128.0</td>
+<td>0.0011</td>
+<td>8.87</td>
+<td>4.25</td>
+<td>-26.43</td>
+</tr>
+<tr>
+<th>1</th>
+<td>1</td>
+<td>2181</td>
+<td>粤 传 媒</td>
+<td>NaN</td>
+<td>6.47</td>
+<td>0.41</td>
+<td>4.10</td>
+<td>4.47</td>
+<td>3.99</td>
+<td>4.06</td>
+<td>...</td>
+<td>11.34</td>
+<td>50.71</td>
+<td>51.90</td>
+<td>4.32</td>
+<td>12.54</td>
+<td>3179.0</td>
+<td>0.0017</td>
+<td>12.03</td>
+<td>23.48</td>
+<td>-8.59</td>
+</tr>
+<tr>
+<th>2</th>
+<td>2</td>
+<td>2703</td>
+<td>浙江世宝</td>
+<td>NaN</td>
+<td>6.69</td>
+<td>0.43</td>
+<td>4.28</td>
+<td>4.69</td>
+<td>4.27</td>
+<td>4.26</td>
+<td>...</td>
+<td>5.53</td>
+<td>25.94</td>
+<td>26.87</td>
+<td>4.61</td>
+<td>12.53</td>
+<td>2091.0</td>
+<td>0.0027</td>
+<td>9.84</td>
+<td>4.22</td>
+<td>-18.43</td>
+</tr>
+<tr>
+<th>3</th>
+<td>3</td>
+<td>2502</td>
+<td>骅威文化</td>
+<td>NaN</td>
+<td>6.71</td>
+<td>0.43</td>
+<td>4.32</td>
+<td>4.71</td>
+<td>4.32</td>
+<td>4.28</td>
+<td>...</td>
+<td>6.21</td>
+<td>29.27</td>
+<td>40.50</td>
+<td>4.60</td>
+<td>12.49</td>
+<td>1610.0</td>
+<td>0.0034</td>
+<td>9.03</td>
+<td>-18.37</td>
+<td>-18.37</td>
+</tr>
+</tbody>
+</table>
+<p>4 rows &times; 31 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[23]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>Index(['Unnamed: 0', 'code', 'name', 'p_change', 'price', 'change', 'open',
+       'high', 'low', 'preprice', 'pe', 'volratio', 'turnover', 'range',
+       'volume', 'selling', 'buying', 'amount', 'totals', 'industry', 'area',
+       'floats', 'fvalues', 'abvalues', 'avgprice', 'strength', 'activity',
+       'avgturnover', 'attack', 'interval3', 'interval6'],
+      dtype='object')</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="复杂查询">复杂查询<a class="anchor-link" href="#复杂查询">&para;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">5</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[27]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>0    False
+1     True
+2     True
+3     True
+Name: price, dtype: bool</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">only_Survived</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">only_Survived</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[28]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Unnamed: 0</th>
+<th>code</th>
+<th>name</th>
+<th>p_change</th>
+<th>price</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>1</th>
+<td>1.0</td>
+<td>2181.0</td>
+<td>粤 传 媒</td>
+<td>NaN</td>
+<td>6.47</td>
+<td>0.41</td>
+<td>4.10</td>
+<td>4.47</td>
+<td>3.99</td>
+<td>4.06</td>
+<td>...</td>
+<td>11.34</td>
+<td>50.71</td>
+<td>51.90</td>
+<td>4.32</td>
+<td>12.54</td>
+<td>3179.0</td>
+<td>0.0017</td>
+<td>12.03</td>
+<td>23.48</td>
+<td>-8.59</td>
+</tr>
+<tr>
+<th>2</th>
+<td>2.0</td>
+<td>2703.0</td>
+<td>浙江世宝</td>
+<td>NaN</td>
+<td>6.69</td>
+<td>0.43</td>
+<td>4.28</td>
+<td>4.69</td>
+<td>4.27</td>
+<td>4.26</td>
+<td>...</td>
+<td>5.53</td>
+<td>25.94</td>
+<td>26.87</td>
+<td>4.61</td>
+<td>12.53</td>
+<td>2091.0</td>
+<td>0.0027</td>
+<td>9.84</td>
+<td>4.22</td>
+<td>-18.43</td>
+</tr>
+<tr>
+<th>3</th>
+<td>3.0</td>
+<td>2502.0</td>
+<td>骅威文化</td>
+<td>NaN</td>
+<td>6.71</td>
+<td>0.43</td>
+<td>4.32</td>
+<td>4.71</td>
+<td>4.32</td>
+<td>4.28</td>
+<td>...</td>
+<td>6.21</td>
+<td>29.27</td>
+<td>40.50</td>
+<td>4.60</td>
+<td>12.49</td>
+<td>1610.0</td>
+<td>0.0034</td>
+<td>9.03</td>
+<td>-18.37</td>
+<td>-18.37</td>
+</tr>
+</tbody>
+</table>
+<p>4 rows &times; 31 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">only_Survived</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[29]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>3</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[30]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>4</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">only_Survived</span> <span class="o">=</span> <span class="n">only_Survived</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">only_Survived</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[31]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Unnamed: 0</th>
+<th>code</th>
+<th>name</th>
+<th>p_change</th>
+<th>price</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p>0 rows &times; 31 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">only_Survived</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">6.5</span><span class="p">]</span>
+<span class="n">only_Survived</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[33]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Unnamed: 0</th>
+<th>code</th>
+<th>name</th>
+<th>p_change</th>
+<th>price</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>2</th>
+<td>2</td>
+<td>2703</td>
+<td>浙江世宝</td>
+<td>NaN</td>
+<td>6.69</td>
+<td>0.43</td>
+<td>4.28</td>
+<td>4.69</td>
+<td>4.27</td>
+<td>4.26</td>
+<td>...</td>
+<td>5.53</td>
+<td>25.94</td>
+<td>26.87</td>
+<td>4.61</td>
+<td>12.53</td>
+<td>2091.0</td>
+<td>0.0027</td>
+<td>9.84</td>
+<td>4.22</td>
+<td>-18.43</td>
+</tr>
+<tr>
+<th>3</th>
+<td>3</td>
+<td>2502</td>
+<td>骅威文化</td>
+<td>NaN</td>
+<td>6.71</td>
+<td>0.43</td>
+<td>4.32</td>
+<td>4.71</td>
+<td>4.32</td>
+<td>4.28</td>
+<td>...</td>
+<td>6.21</td>
+<td>29.27</td>
+<td>40.50</td>
+<td>4.60</td>
+<td>12.49</td>
+<td>1610.0</td>
+<td>0.0034</td>
+<td>9.03</td>
+<td>-18.37</td>
+<td>-18.37</td>
+</tr>
+</tbody>
+</table>
+<p>2 rows &times; 31 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span> <span class="o">&lt;</span><span class="mi">7</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[38]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Unnamed: 0</th>
+<th>code</th>
+<th>name</th>
+<th>p_change</th>
+<th>price</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>1</th>
+<td>1</td>
+<td>2181</td>
+<td>粤 传 媒</td>
+<td>NaN</td>
+<td>6.47</td>
+<td>0.41</td>
+<td>4.10</td>
+<td>4.47</td>
+<td>3.99</td>
+<td>4.06</td>
+<td>...</td>
+<td>11.34</td>
+<td>50.71</td>
+<td>51.90</td>
+<td>4.32</td>
+<td>12.54</td>
+<td>3179.0</td>
+<td>0.0017</td>
+<td>12.03</td>
+<td>23.48</td>
+<td>-8.59</td>
+</tr>
+<tr>
+<th>2</th>
+<td>2</td>
+<td>2703</td>
+<td>浙江世宝</td>
+<td>NaN</td>
+<td>6.69</td>
+<td>0.43</td>
+<td>4.28</td>
+<td>4.69</td>
+<td>4.27</td>
+<td>4.26</td>
+<td>...</td>
+<td>5.53</td>
+<td>25.94</td>
+<td>26.87</td>
+<td>4.61</td>
+<td>12.53</td>
+<td>2091.0</td>
+<td>0.0027</td>
+<td>9.84</td>
+<td>4.22</td>
+<td>-18.43</td>
+</tr>
+<tr>
+<th>3</th>
+<td>3</td>
+<td>2502</td>
+<td>骅威文化</td>
+<td>NaN</td>
+<td>6.71</td>
+<td>0.43</td>
+<td>4.32</td>
+<td>4.71</td>
+<td>4.32</td>
+<td>4.28</td>
+<td>...</td>
+<td>6.21</td>
+<td>29.27</td>
+<td>40.50</td>
+<td>4.60</td>
+<td>12.49</td>
+<td>1610.0</td>
+<td>0.0034</td>
+<td>9.03</td>
+<td>-18.37</td>
+<td>-18.37</td>
+</tr>
+</tbody>
+</table>
+<p>3 rows &times; 31 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span> <span class="o">&gt;</span><span class="mf">6.7</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[42]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Unnamed: 0</th>
+<th>code</th>
+<th>name</th>
+<th>p_change</th>
+<th>price</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>0</td>
+<td>2305</td>
+<td>南国置业</td>
+<td>NaN</td>
+<td>4.70</td>
+<td>0.25</td>
+<td>2.54</td>
+<td>2.70</td>
+<td>2.48</td>
+<td>2.45</td>
+<td>...</td>
+<td>16.23</td>
+<td>43.83</td>
+<td>46.82</td>
+<td>2.64</td>
+<td>12.64</td>
+<td>1128.0</td>
+<td>0.0011</td>
+<td>8.87</td>
+<td>4.25</td>
+<td>-26.43</td>
+</tr>
+<tr>
+<th>3</th>
+<td>3</td>
+<td>2502</td>
+<td>骅威文化</td>
+<td>NaN</td>
+<td>6.71</td>
+<td>0.43</td>
+<td>4.32</td>
+<td>4.71</td>
+<td>4.32</td>
+<td>4.28</td>
+<td>...</td>
+<td>6.21</td>
+<td>29.27</td>
+<td>40.50</td>
+<td>4.60</td>
+<td>12.49</td>
+<td>1610.0</td>
+<td>0.0034</td>
+<td>9.03</td>
+<td>-18.37</td>
+<td>-18.37</td>
+</tr>
+</tbody>
+</table>
+<p>2 rows &times; 31 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="索引">索引<a class="anchor-link" href="#索引">&para;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'/tmp/tmp.csv'</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[46]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Unnamed: 0</th>
+<th>code</th>
+<th>name</th>
+<th>p_change</th>
+<th>price</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>0</td>
+<td>2305</td>
+<td>南国置业</td>
+<td>NaN</td>
+<td>4.70</td>
+<td>0.25</td>
+<td>2.54</td>
+<td>2.70</td>
+<td>2.48</td>
+<td>2.45</td>
+<td>...</td>
+<td>16.23</td>
+<td>43.83</td>
+<td>46.82</td>
+<td>2.64</td>
+<td>12.64</td>
+<td>1128.0</td>
+<td>0.0011</td>
+<td>8.87</td>
+<td>4.25</td>
+<td>-26.43</td>
+</tr>
+<tr>
+<th>1</th>
+<td>1</td>
+<td>2181</td>
+<td>粤 传 媒</td>
+<td>NaN</td>
+<td>6.47</td>
+<td>0.41</td>
+<td>4.10</td>
+<td>4.47</td>
+<td>3.99</td>
+<td>4.06</td>
+<td>...</td>
+<td>11.34</td>
+<td>50.71</td>
+<td>51.90</td>
+<td>4.32</td>
+<td>12.54</td>
+<td>3179.0</td>
+<td>0.0017</td>
+<td>12.03</td>
+<td>23.48</td>
+<td>-8.59</td>
+</tr>
+<tr>
+<th>2</th>
+<td>2</td>
+<td>2703</td>
+<td>浙江世宝</td>
+<td>NaN</td>
+<td>6.69</td>
+<td>0.43</td>
+<td>4.28</td>
+<td>4.69</td>
+<td>4.27</td>
+<td>4.26</td>
+<td>...</td>
+<td>5.53</td>
+<td>25.94</td>
+<td>26.87</td>
+<td>4.61</td>
+<td>12.53</td>
+<td>2091.0</td>
+<td>0.0027</td>
+<td>9.84</td>
+<td>4.22</td>
+<td>-18.43</td>
+</tr>
+<tr>
+<th>3</th>
+<td>3</td>
+<td>2502</td>
+<td>骅威文化</td>
+<td>NaN</td>
+<td>6.71</td>
+<td>0.43</td>
+<td>4.32</td>
+<td>4.71</td>
+<td>4.32</td>
+<td>4.28</td>
+<td>...</td>
+<td>6.21</td>
+<td>29.27</td>
+<td>40.50</td>
+<td>4.60</td>
+<td>12.49</td>
+<td>1610.0</td>
+<td>0.0034</td>
+<td>9.03</td>
+<td>-18.37</td>
+<td>-18.37</td>
+</tr>
+</tbody>
+</table>
+<p>4 rows &times; 31 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'code'</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[47]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Unnamed: 0</th>
+<th>name</th>
+<th>p_change</th>
+<th>price</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>pe</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+<tr>
+<th>code</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>2305</th>
+<td>0</td>
+<td>南国置业</td>
+<td>NaN</td>
+<td>4.70</td>
+<td>0.25</td>
+<td>2.54</td>
+<td>2.70</td>
+<td>2.48</td>
+<td>2.45</td>
+<td>118.19</td>
+<td>...</td>
+<td>16.23</td>
+<td>43.83</td>
+<td>46.82</td>
+<td>2.64</td>
+<td>12.64</td>
+<td>1128.0</td>
+<td>0.0011</td>
+<td>8.87</td>
+<td>4.25</td>
+<td>-26.43</td>
+</tr>
+<tr>
+<th>2181</th>
+<td>1</td>
+<td>粤 传 媒</td>
+<td>NaN</td>
+<td>6.47</td>
+<td>0.41</td>
+<td>4.10</td>
+<td>4.47</td>
+<td>3.99</td>
+<td>4.06</td>
+<td>143.59</td>
+<td>...</td>
+<td>11.34</td>
+<td>50.71</td>
+<td>51.90</td>
+<td>4.32</td>
+<td>12.54</td>
+<td>3179.0</td>
+<td>0.0017</td>
+<td>12.03</td>
+<td>23.48</td>
+<td>-8.59</td>
+</tr>
+<tr>
+<th>2703</th>
+<td>2</td>
+<td>浙江世宝</td>
+<td>NaN</td>
+<td>6.69</td>
+<td>0.43</td>
+<td>4.28</td>
+<td>4.69</td>
+<td>4.27</td>
+<td>4.26</td>
+<td>0.00</td>
+<td>...</td>
+<td>5.53</td>
+<td>25.94</td>
+<td>26.87</td>
+<td>4.61</td>
+<td>12.53</td>
+<td>2091.0</td>
+<td>0.0027</td>
+<td>9.84</td>
+<td>4.22</td>
+<td>-18.43</td>
+</tr>
+<tr>
+<th>2502</th>
+<td>3</td>
+<td>骅威文化</td>
+<td>NaN</td>
+<td>6.71</td>
+<td>0.43</td>
+<td>4.32</td>
+<td>4.71</td>
+<td>4.32</td>
+<td>4.28</td>
+<td>90.84</td>
+<td>...</td>
+<td>6.21</td>
+<td>29.27</td>
+<td>40.50</td>
+<td>4.60</td>
+<td>12.49</td>
+<td>1610.0</td>
+<td>0.0034</td>
+<td>9.03</td>
+<td>-18.37</td>
+<td>-18.37</td>
+</tr>
+</tbody>
+</table>
+<p>4 rows &times; 30 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[48]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>code</th>
+<th>Unnamed: 0</th>
+<th>name</th>
+<th>p_change</th>
+<th>price</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>2305</td>
+<td>0</td>
+<td>南国置业</td>
+<td>NaN</td>
+<td>4.70</td>
+<td>0.25</td>
+<td>2.54</td>
+<td>2.70</td>
+<td>2.48</td>
+<td>2.45</td>
+<td>...</td>
+<td>16.23</td>
+<td>43.83</td>
+<td>46.82</td>
+<td>2.64</td>
+<td>12.64</td>
+<td>1128.0</td>
+<td>0.0011</td>
+<td>8.87</td>
+<td>4.25</td>
+<td>-26.43</td>
+</tr>
+<tr>
+<th>1</th>
+<td>2181</td>
+<td>1</td>
+<td>粤 传 媒</td>
+<td>NaN</td>
+<td>6.47</td>
+<td>0.41</td>
+<td>4.10</td>
+<td>4.47</td>
+<td>3.99</td>
+<td>4.06</td>
+<td>...</td>
+<td>11.34</td>
+<td>50.71</td>
+<td>51.90</td>
+<td>4.32</td>
+<td>12.54</td>
+<td>3179.0</td>
+<td>0.0017</td>
+<td>12.03</td>
+<td>23.48</td>
+<td>-8.59</td>
+</tr>
+<tr>
+<th>2</th>
+<td>2703</td>
+<td>2</td>
+<td>浙江世宝</td>
+<td>NaN</td>
+<td>6.69</td>
+<td>0.43</td>
+<td>4.28</td>
+<td>4.69</td>
+<td>4.27</td>
+<td>4.26</td>
+<td>...</td>
+<td>5.53</td>
+<td>25.94</td>
+<td>26.87</td>
+<td>4.61</td>
+<td>12.53</td>
+<td>2091.0</td>
+<td>0.0027</td>
+<td>9.84</td>
+<td>4.22</td>
+<td>-18.43</td>
+</tr>
+<tr>
+<th>3</th>
+<td>2502</td>
+<td>3</td>
+<td>骅威文化</td>
+<td>NaN</td>
+<td>6.71</td>
+<td>0.43</td>
+<td>4.32</td>
+<td>4.71</td>
+<td>4.32</td>
+<td>4.28</td>
+<td>...</td>
+<td>6.21</td>
+<td>29.27</td>
+<td>40.50</td>
+<td>4.60</td>
+<td>12.49</td>
+<td>1610.0</td>
+<td>0.0034</td>
+<td>9.03</td>
+<td>-18.37</td>
+<td>-18.37</td>
+</tr>
+</tbody>
+</table>
+<p>4 rows &times; 31 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[49]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>array([4.7 , 6.47, 6.69, 6.71])</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="缺失值处理">缺失值处理<a class="anchor-link" href="#缺失值处理">&para;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'price'</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[51]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>code</th>
+<th>Unnamed: 0</th>
+<th>name</th>
+<th>p_change</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>pe</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+<tr>
+<th>price</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>4.70</th>
+<td>2305</td>
+<td>0</td>
+<td>南国置业</td>
+<td>NaN</td>
+<td>0.25</td>
+<td>2.54</td>
+<td>2.70</td>
+<td>2.48</td>
+<td>2.45</td>
+<td>118.19</td>
+<td>...</td>
+<td>16.23</td>
+<td>43.83</td>
+<td>46.82</td>
+<td>2.64</td>
+<td>12.64</td>
+<td>1128.0</td>
+<td>0.0011</td>
+<td>8.87</td>
+<td>4.25</td>
+<td>-26.43</td>
+</tr>
+<tr>
+<th>6.47</th>
+<td>2181</td>
+<td>1</td>
+<td>粤 传 媒</td>
+<td>NaN</td>
+<td>0.41</td>
+<td>4.10</td>
+<td>4.47</td>
+<td>3.99</td>
+<td>4.06</td>
+<td>143.59</td>
+<td>...</td>
+<td>11.34</td>
+<td>50.71</td>
+<td>51.90</td>
+<td>4.32</td>
+<td>12.54</td>
+<td>3179.0</td>
+<td>0.0017</td>
+<td>12.03</td>
+<td>23.48</td>
+<td>-8.59</td>
+</tr>
+<tr>
+<th>6.69</th>
+<td>2703</td>
+<td>2</td>
+<td>浙江世宝</td>
+<td>NaN</td>
+<td>0.43</td>
+<td>4.28</td>
+<td>4.69</td>
+<td>4.27</td>
+<td>4.26</td>
+<td>0.00</td>
+<td>...</td>
+<td>5.53</td>
+<td>25.94</td>
+<td>26.87</td>
+<td>4.61</td>
+<td>12.53</td>
+<td>2091.0</td>
+<td>0.0027</td>
+<td>9.84</td>
+<td>4.22</td>
+<td>-18.43</td>
+</tr>
+<tr>
+<th>6.71</th>
+<td>2502</td>
+<td>3</td>
+<td>骅威文化</td>
+<td>NaN</td>
+<td>0.43</td>
+<td>4.32</td>
+<td>4.71</td>
+<td>4.32</td>
+<td>4.28</td>
+<td>90.84</td>
+<td>...</td>
+<td>6.21</td>
+<td>29.27</td>
+<td>40.50</td>
+<td>4.60</td>
+<td>12.49</td>
+<td>1610.0</td>
+<td>0.0034</td>
+<td>9.03</td>
+<td>-18.37</td>
+<td>-18.37</td>
+</tr>
+</tbody>
+</table>
+<p>4 rows &times; 30 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">'code'</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">])</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[52]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th></th>
+<th>price</th>
+<th>Unnamed: 0</th>
+<th>p_change</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>pe</th>
+<th>volratio</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+<tr>
+<th>code</th>
+<th>name</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>2305</th>
+<th>南国置业</th>
+<td>4.70</td>
+<td>0</td>
+<td>NaN</td>
+<td>0.25</td>
+<td>2.54</td>
+<td>2.70</td>
+<td>2.48</td>
+<td>2.45</td>
+<td>118.19</td>
+<td>2.48</td>
+<td>...</td>
+<td>16.23</td>
+<td>43.83</td>
+<td>46.82</td>
+<td>2.64</td>
+<td>12.64</td>
+<td>1128.0</td>
+<td>0.0011</td>
+<td>8.87</td>
+<td>4.25</td>
+<td>-26.43</td>
+</tr>
+<tr>
+<th>2181</th>
+<th>粤 传 媒</th>
+<td>6.47</td>
+<td>1</td>
+<td>NaN</td>
+<td>0.41</td>
+<td>4.10</td>
+<td>4.47</td>
+<td>3.99</td>
+<td>4.06</td>
+<td>143.59</td>
+<td>2.18</td>
+<td>...</td>
+<td>11.34</td>
+<td>50.71</td>
+<td>51.90</td>
+<td>4.32</td>
+<td>12.54</td>
+<td>3179.0</td>
+<td>0.0017</td>
+<td>12.03</td>
+<td>23.48</td>
+<td>-8.59</td>
+</tr>
+<tr>
+<th>2703</th>
+<th>浙江世宝</th>
+<td>6.69</td>
+<td>2</td>
+<td>NaN</td>
+<td>0.43</td>
+<td>4.28</td>
+<td>4.69</td>
+<td>4.27</td>
+<td>4.26</td>
+<td>0.00</td>
+<td>2.31</td>
+<td>...</td>
+<td>5.53</td>
+<td>25.94</td>
+<td>26.87</td>
+<td>4.61</td>
+<td>12.53</td>
+<td>2091.0</td>
+<td>0.0027</td>
+<td>9.84</td>
+<td>4.22</td>
+<td>-18.43</td>
+</tr>
+<tr>
+<th>2502</th>
+<th>骅威文化</th>
+<td>6.71</td>
+<td>3</td>
+<td>NaN</td>
+<td>0.43</td>
+<td>4.32</td>
+<td>4.71</td>
+<td>4.32</td>
+<td>4.28</td>
+<td>90.84</td>
+<td>0.85</td>
+<td>...</td>
+<td>6.21</td>
+<td>29.27</td>
+<td>40.50</td>
+<td>4.60</td>
+<td>12.49</td>
+<td>1610.0</td>
+<td>0.0034</td>
+<td>9.03</td>
+<td>-18.37</td>
+<td>-18.37</td>
+</tr>
+</tbody>
+</table>
+<p>4 rows &times; 29 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">'ffill'</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[53]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th></th>
+<th>price</th>
+<th>Unnamed: 0</th>
+<th>p_change</th>
+<th>change</th>
+<th>open</th>
+<th>high</th>
+<th>low</th>
+<th>preprice</th>
+<th>pe</th>
+<th>volratio</th>
+<th>...</th>
+<th>floats</th>
+<th>fvalues</th>
+<th>abvalues</th>
+<th>avgprice</th>
+<th>strength</th>
+<th>activity</th>
+<th>avgturnover</th>
+<th>attack</th>
+<th>interval3</th>
+<th>interval6</th>
+</tr>
+<tr>
+<th>code</th>
+<th>name</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>2305</th>
+<th>南国置业</th>
+<td>4.70</td>
+<td>0</td>
+<td>NaN</td>
+<td>0.25</td>
+<td>2.54</td>
+<td>2.70</td>
+<td>2.48</td>
+<td>2.45</td>
+<td>118.19</td>
+<td>2.48</td>
+<td>...</td>
+<td>16.23</td>
+<td>43.83</td>
+<td>46.82</td>
+<td>2.64</td>
+<td>12.64</td>
+<td>1128.0</td>
+<td>0.0011</td>
+<td>8.87</td>
+<td>4.25</td>
+<td>-26.43</td>
+</tr>
+<tr>
+<th>2181</th>
+<th>粤 传 媒</th>
+<td>6.47</td>
+<td>1</td>
+<td>NaN</td>
+<td>0.41</td>
+<td>4.10</td>
+<td>4.47</td>
+<td>3.99</td>
+<td>4.06</td>
+<td>143.59</td>
+<td>2.18</td>
+<td>...</td>
+<td>11.34</td>
+<td>50.71</td>
+<td>51.90</td>
+<td>4.32</td>
+<td>12.54</td>
+<td>3179.0</td>
+<td>0.0017</td>
+<td>12.03</td>
+<td>23.48</td>
+<td>-8.59</td>
+</tr>
+<tr>
+<th>2703</th>
+<th>浙江世宝</th>
+<td>6.69</td>
+<td>2</td>
+<td>NaN</td>
+<td>0.43</td>
+<td>4.28</td>
+<td>4.69</td>
+<td>4.27</td>
+<td>4.26</td>
+<td>0.00</td>
+<td>2.31</td>
+<td>...</td>
+<td>5.53</td>
+<td>25.94</td>
+<td>26.87</td>
+<td>4.61</td>
+<td>12.53</td>
+<td>2091.0</td>
+<td>0.0027</td>
+<td>9.84</td>
+<td>4.22</td>
+<td>-18.43</td>
+</tr>
+<tr>
+<th>2502</th>
+<th>骅威文化</th>
+<td>6.71</td>
+<td>3</td>
+<td>NaN</td>
+<td>0.43</td>
+<td>4.32</td>
+<td>4.71</td>
+<td>4.32</td>
+<td>4.28</td>
+<td>90.84</td>
+<td>0.85</td>
+<td>...</td>
+<td>6.21</td>
+<td>29.27</td>
+<td>40.50</td>
+<td>4.60</td>
+<td>12.49</td>
+<td>1610.0</td>
+<td>0.0034</td>
+<td>9.03</td>
+<td>-18.37</td>
+<td>-18.37</td>
+</tr>
+</tbody>
+</table>
+<p>4 rows &times; 29 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="合并Dataframes">合并Dataframes<a class="anchor-link" href="#合并Dataframes">&para;</a></h3><p>pandas提供了各种工具，可以轻松地将Series，DataFrame和Panel对象与各种类型的索引设置逻辑组合在一起，并在连接/合并类型操作的情况下使用关系代数功能。</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="合并和重组">合并和重组<a class="anchor-link" href="#合并和重组">&para;</a></h3><p>需要先安装另外一个数据获取的库pytdx获取另外一个数据</p>
+<blockquote><p>pip install pytdx</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pytdx.hq</span> <span class="k">import</span> <span class="n">TdxHq_API</span>
+<span class="kn">from</span> <span class="nn">pytdx.params</span> <span class="k">import</span> <span class="n">TDXParams</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">TdxHq_API</span><span class="p">(</span><span class="n">auto_retry</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">heartbeat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">api</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">'119.147.212.81'</span><span class="p">,</span> <span class="mi">7709</span><span class="p">):</span>
+    <span class="n">block_df</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">to_df</span><span class="p">(</span><span class="n">api</span><span class="o">.</span><span class="n">get_and_parse_block_info</span><span class="p">(</span><span class="n">TDXParams</span><span class="o">.</span><span class="n">BLOCK_DEFAULT</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">block_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[55]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>blockname</th>
+<th>block_type</th>
+<th>code_index</th>
+<th>code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>沪深300</td>
+<td>2</td>
+<td>0</td>
+<td>000001</td>
+</tr>
+<tr>
+<th>1</th>
+<td>沪深300</td>
+<td>2</td>
+<td>1</td>
+<td>000002</td>
+</tr>
+<tr>
+<th>2</th>
+<td>沪深300</td>
+<td>2</td>
+<td>2</td>
+<td>000060</td>
+</tr>
+<tr>
+<th>3</th>
+<td>沪深300</td>
+<td>2</td>
+<td>3</td>
+<td>000063</td>
+</tr>
+<tr>
+<th>4</th>
+<td>沪深300</td>
+<td>2</td>
+<td>4</td>
+<td>000069</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="时间日期处理">时间日期处理<a class="anchor-link" href="#时间日期处理">&para;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Datetime">Datetime<a class="anchor-link" href="#Datetime">&para;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="s1">'abc'</span><span class="p">),</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">'2016-09-01'</span><span class="p">),</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">'2016-09-02'</span><span class="p">),</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">'2016-09-03'</span><span class="p">)])</span>
+<span class="n">t1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[82]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>2016-09-01    a
+2016-09-02    b
+2016-09-03    c
+dtype: object</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[83]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[83]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>pandas.core.indexes.datetimes.DatetimeIndex</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Converting-to-Datetime">Converting to Datetime<a class="anchor-link" href="#Converting-to-Datetime">&para;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">d1</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'2 June 2013'</span><span class="p">,</span> <span class="s1">'Aug 29, 2014'</span><span class="p">,</span> <span class="s1">'2015-06-26'</span><span class="p">,</span> <span class="s1">'7/12/16'</span><span class="p">]</span>
+<span class="n">ts3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">)),</span> <span class="n">index</span><span class="o">=</span><span class="n">d1</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="s1">'ab'</span><span class="p">))</span>
+<span class="n">ts3</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[56]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>a</th>
+<th>b</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>2 June 2013</th>
+<td>44</td>
+<td>34</td>
+</tr>
+<tr>
+<th>Aug 29, 2014</th>
+<td>81</td>
+<td>94</td>
+</tr>
+<tr>
+<th>2015-06-26</th>
+<td>60</td>
+<td>13</td>
+</tr>
+<tr>
+<th>7/12/16</th>
+<td>85</td>
+<td>56</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="s1">'4.7.12'</span><span class="p">,</span> <span class="n">dayfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[57]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>Timestamp('2012-07-04 00:00:00')</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">'9/3/2016'</span><span class="p">)</span><span class="o">-</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">'9/1/2016'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[58]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>Timedelta('2 days 00:00:00')</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Timedeltas">Timedeltas<a class="anchor-link" href="#Timedeltas">&para;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">'9/3/2016'</span><span class="p">)</span><span class="o">-</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">'9/1/2016'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[59]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>Timedelta('2 days 00:00:00')</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[60]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">'9/2/2016 8:10AM'</span><span class="p">)</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="s1">'12D 3H'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[60]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>Timestamp('2016-09-14 11:10:00')</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="respmple">respmple<a class="anchor-link" href="#respmple">&para;</a></h4><p>其余暂未发表出来</p>
+</div>
+</div>
+</div>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js';
+    mathjaxscript.src += '?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: 'center'," +
+        "    displayIndent: '0em'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['$','$'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        processEnvironments: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        " linebreaks: { automatic: true, width: '95% container' }, " +
+        "    } " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+				<!-- Neighbor content -->
+			     <ul class="pager">
+			         <li class="previous">
+			             <a href="http://518.is/china-stock-p_change-histogram.html">
+			                 ← A股涨跌幅直方图
+			             </a>
+			         </li>
+			    </ul>
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="http://518.is/china-stock-p_change-histogram.html">A股涨跌幅直方图</a></li>
+        <li><a href="http://518.is/What-can-a-beginner-do-with-Python.html">初学python可以做什么</a></li>
+        <li><a href="http://518.is/China-stock-p_change-scatter.html">A股涨跌情况散点图</a></li>
+        <li><a href="http://518.is/stock-Realtime-streaming-computation.html">股票实时流计算</a></li>
+    </ul>
+</section>
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'najablog'; // required: replace example with your forum shortname
+
+            var disqus_config = function () {
+                this.language = "zh";
+
+                        this.page.identifier = '2018-12-07-Pandas-streamlined-tutorials';
+                        this.page.url = 'http://518.is/Pandas-streamlined-tutorials.html';
+            };
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="http://weibo.com/fxmyk"><i class="fa fa-朝天吼微博-square fa-lg"></i> 朝天吼微博</a></li>
+    <li class="list-group-item"><a href="#"><i class="fa fa-another-social-link-square fa-lg"></i> Another social link</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://sostc.org/" target="_blank">公司朝天吼官网</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://shop101144854.taobao.com" target="_blank">数据产品淘宝店</a>
+    </li>
+    <li class="list-group-item">
+      <a href="#" target="_blank">You can ask me to modify those links </a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">
+			&copy; 2018 spark
+            &middot;  <a href="/ipython" target="_blank">Notebook入口</a>,
+            <a href="http://data.518.is/data/jinshi" target="_blank">进士股票</a>,
+            <a href="http://data.518.is/zf" target="_blank">涨幅统计</a>                <p><small>  <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh"><img alt="Creative Commons License" style="border-width:0" src="//i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
+    Content
+  licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh">Creative Commons Attribution-ShareAlike 4.0 International License</a>, except where indicated otherwise.
+</small></p>
+         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://518.is/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://518.is/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://518.is/theme/js/respond.min.js"></script>
+
+
+    <!-- Disqus -->
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'najablog'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <!-- End Disqus Code -->
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-4002013-9']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+
+
+</body>
+</html>

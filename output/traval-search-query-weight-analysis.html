@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bokeh/1.0.1/bokeh-gl.min.js.map"></script>
+	<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+    <title>旅行搜索词权重分析 - NajaBlog</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="http://518.is/traval-search-query-weight-analysis.html">
+
+        <meta name="author" content="spark" />
+        <meta name="keywords" content="nlp,jupyter,jieba,query" />
+        <meta name="description" content="加载搜索日志 加载某天用户query session" />
+
+        <meta property="og:site_name" content="NajaBlog" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="旅行搜索词权重分析"/>
+        <meta property="og:url" content="http://518.is/traval-search-query-weight-analysis.html"/>
+        <meta property="og:description" content="加载搜索日志 加载某天用户query session"/>
+        <meta property="article:published_time" content="2018-11-20" />
+            <meta property="article:section" content="自然语言" />
+            <meta property="article:tag" content="nlp" />
+            <meta property="article:tag" content="jupyter" />
+            <meta property="article:tag" content="jieba" />
+            <meta property="article:tag" content="query" />
+            <meta property="article:author" content="spark" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://518.is/theme/css/bootstrap.cosmo.min.css" type="text/css"/>
+    <link href="http://518.is/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://518.is/theme/css/pygments/friendly.css" rel="stylesheet">
+    <link href="http://518.is/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://518.is/theme/css/style.css" type="text/css"/>
+
+        <link href="http://518.is/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="NajaBlog ATOM Feed"/>
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://518.is/" class="navbar-brand">
+NajaBlog            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                    <li><a href="/archives.html">Archives</a></li>
+                    <li><a href="/categories.html">Categories</a></li>
+                    <li><a href="/tags.html">Tags</a></li>
+                    <li><a href="/pages/about.html">About</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <ol class="breadcrumb">
+                <li><a href="http://518.is" title="NajaBlog"><i class="fa fa-home fa-lg"></i></a></li>
+                <li><a href="http://518.is/category/zi-ran-yu-yan.html" title="自然语言">自然语言</a></li>
+                <li class="active">旅行搜索词权重分析</li>
+            </ol>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://518.is/traval-search-query-weight-analysis.html"
+                       rel="bookmark"
+                       title="Permalink to 旅行搜索词权重分析">
+                        旅行搜索词权重分析
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2018-11-20T00:00:00+08:00"> 2018年11月20日(周二)</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://518.is/tag/nlp.html">nlp</a>
+        /
+	<a href="http://518.is/tag/jupyter.html">jupyter</a>
+        /
+	<a href="http://518.is/tag/jieba.html">jieba</a>
+        /
+	<a href="http://518.is/tag/query.html">query</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+        			<div class="panel panel-default">
+            			<div class="panel-heading">Table of Contents</div>
+            			<div class="panel-body">
+            			<div id="toc"><ul><li><a class="toc-href" href="#加载搜索日志" title="加载搜索日志&para;">加载搜索日志&para;</a></li><li><a class="toc-href" href="#有效去重复" title="有效去重复&para;">有效去重复&para;</a></li><li><a class="toc-href" href="#权重词提取" title="权重词提取&para;">权重词提取&para;</a></li></ul></div>
+            			</div>
+       		 		</div>
+                
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="加载搜索日志">加载搜索日志<a class="anchor-link" href="#加载搜索日志">&para;</a></h3><blockquote><p>加载某天用户query session</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'/Users/spark/pship/tripdata/top_app_search_user_query.csv'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[2]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>user_nick</th>
+<th>querysum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>liudaozhen1962</td>
+<td>巴厘岛,巴厘岛,巴厘岛,巴厘岛,巴厘岛,巴厘岛,巴厘岛,巴厘岛,巴厘岛,巴厘岛,巴厘岛,巴厘...</td>
+</tr>
+<tr>
+<th>1</th>
+<td>坏坏坏女孩eva</td>
+<td>香港广州,香港酒店,缅甸签证,泰国,香港酒店,香港酒店,香港,香港酒店,香港,香港广州,香港...</td>
+</tr>
+<tr>
+<th>2</th>
+<td>孙尚香123</td>
+<td>海宁皮革城,海宁皮革城,海宁皮革城,海宁,海宁皮革城,埃及,埃及,埃及,埃及,埃及,埃及,埃...</td>
+</tr>
+<tr>
+<th>3</th>
+<td>晋晴1314</td>
+<td>普吉自由行,普吉自由行,普吉自由行,普吉自由行,普吉自由行,普吉自由行,普吉自由行,普吉自由...</td>
+</tr>
+<tr>
+<th>4</th>
+<td>g1967650712</td>
+<td>清莱,清莱,清莱,清莱,清莱,清莱,清莱,清莱,清莱,清莱,清莱,清莱,泰国,泰国清迈旅游,...</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[3]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>user_nick</th>
+<th>querysum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>count</th>
+<td>715945</td>
+<td>715945</td>
+</tr>
+<tr>
+<th>unique</th>
+<td>715945</td>
+<td>379207</td>
+</tr>
+<tr>
+<th>top</th>
+<td>haoqixun1989</td>
+<td>上海</td>
+</tr>
+<tr>
+<th>freq</th>
+<td>1</td>
+<td>6184</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="有效去重复">有效去重复<a class="anchor-link" href="#有效去重复">&para;</a></h3><p>从每个用户的query session中，获取20个 tag 词 
+未直接采用全部用户query做tag权重分析，可以避免个别用户产生大量的重复query干扰整体</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># %%timeit</span>
+<span class="kn">import</span> <span class="nn">jieba</span>
+<span class="kn">import</span> <span class="nn">jieba.analyse</span>
+<span class="n">jieba</span><span class="o">.</span><span class="n">load_userdict</span><span class="p">(</span><span class="s1">'/Users/spark/pship/nlp/jieba/dict/trip.dict'</span><span class="p">)</span><span class="c1">#使用自定义旅行字典</span>
+
+<span class="c1"># e = d[:5000]</span>
+
+<span class="k">def</span> <span class="nf">tags</span><span class="p">(</span><span class="n">content</span><span class="p">):</span>
+    <span class="k">return</span><span class="s1">','</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">jieba</span><span class="o">.</span><span class="n">analyse</span><span class="o">.</span><span class="n">extract_tags</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">topK</span><span class="o">=</span><span class="mi">20</span><span class="p">))</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s1">'querytag'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">querysum</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Building prefix dict from the default dictionary ...
+Loading model from cache /var/folders/7s/wk98z9d51p1b9_40kcp0d3c00000gp/T/jieba.cache
+Loading model cost 1.168 seconds.
+Prefix dict has been built succesfully.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[6]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>user_nick</th>
+<th>querysum</th>
+<th>querytag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>liudaozhen1962</td>
+<td>巴厘岛,巴厘岛,巴厘岛,巴厘岛,巴厘岛,巴厘岛,巴厘岛,巴厘岛,巴厘岛,巴厘岛,巴厘岛,巴厘...</td>
+<td>巴厘岛,旅游,马尔代夫,新加坡,韩国,大溪地,水屋,济州岛,波德申,云南旅游,塞班岛,甲米,...</td>
+</tr>
+<tr>
+<th>1</th>
+<td>坏坏坏女孩eva</td>
+<td>香港广州,香港酒店,缅甸签证,泰国,香港酒店,香港酒店,香港,香港酒店,香港,香港广州,香港...</td>
+<td>香港,广州,八达通,签证,缅甸,泰国,酒店,百程,莲花山,美食,澳门,南沙,南丫岛,曼谷,越...</td>
+</tr>
+<tr>
+<th>2</th>
+<td>孙尚香123</td>
+<td>海宁皮革城,海宁皮革城,海宁皮革城,海宁,海宁皮革城,埃及,埃及,埃及,埃及,埃及,埃及,埃...</td>
+<td>埃及,印度,柬埔寨,清迈,塞班岛,泰国,马来西亚,新加坡,迪拜,旅游团,海宁,皮革</td>
+</tr>
+<tr>
+<th>3</th>
+<td>晋晴1314</td>
+<td>普吉自由行,普吉自由行,普吉自由行,普吉自由行,普吉自由行,普吉自由行,普吉自由行,普吉自由...</td>
+<td>自由行,首尔,韩国,三亚,普吉,长滩,澳门,日本,厦门,杭州,龙之梦,嘉兴,出发,美国</td>
+</tr>
+<tr>
+<th>4</th>
+<td>g1967650712</td>
+<td>清莱,清莱,清莱,清莱,清莱,清莱,清莱,清莱,清莱,清莱,清莱,清莱,泰国,泰国清迈旅游,...</td>
+<td>北海道,旅游,澳大利亚,清莱,澳洲,清迈,泰国,厦门,哈尔滨,俄罗斯,香格里拉,丽江</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="权重词提取">权重词提取<a class="anchor-link" href="#权重词提取">&para;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>使用所有的用户的top 20 query tag，汇总计算关键词出现的权重</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">alltags</span> <span class="o">=</span> <span class="n">jieba</span><span class="o">.</span><span class="n">analyse</span><span class="o">.</span><span class="n">extract_tags</span><span class="p">(</span><span class="s1">','</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">querytag</span><span class="p">),</span> <span class="n">topK</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">withWeight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span>  <span class="n">alltags</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>自由行 0.28530648621454635
+门票 0.17707583648037084
+温泉 0.15158897260839688
+旅游 0.14890574763899536
+一日游 0.1266516846160216
+泰国 0.10842970641468695
+三亚 0.10812184831689642
+厦门 0.10695954526080509
+酒店 0.09887719362416289
+长隆 0.0820285479693332
+上海 0.07917369460084639
+台湾 0.06964111051817574
+签证 0.0687098730822151
+北京 0.06754328607204396
+日本 0.06716998401093281
+韩国 0.06636275419281691
+马尔代夫 0.06522948827756436
+香港 0.06193421478732575
+杭州 0.05983696407325229
+广州 0.055085224243862516
+欢乐谷 0.054808017391979894
+成都 0.04886760098460921
+哈尔滨 0.04837198205379578
+黄山 0.04576461316339519
+九寨沟 0.042686236951448096
+丽江 0.042564663953708254
+珠海 0.0411535715914538
+南京 0.04048524212895173
+港澳 0.03977166213676667
+深圳 0.039770390419958834
+云南 0.038277095799736684
+西安 0.03785376072621682
+重庆 0.03563183205505705
+武汉 0.03549137995528356
+普吉岛 0.03383049064595467
+乌镇 0.03299365633737334
+长白山 0.03214147281804098
+张家界 0.03186644524558958
+澳门 0.03173563496702224
+巴厘岛 0.031473388003159464
+千岛湖 0.030555508515068937
+三亚旅游 0.030094293003255643
+苏州 0.029839576878723215
+西塘 0.029682882106838525
+大理 0.02864672754333205
+鼓浪屿 0.028327854410788066
+动物园 0.028139425944403676
+套票 0.026636298045246025
+青岛 0.02658017791010246
+汽车票 0.026478346931912637
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js';
+    mathjaxscript.src += '?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: 'center'," +
+        "    displayIndent: '0em'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['$','$'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        processEnvironments: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        " linebreaks: { automatic: true, width: '95% container' }, " +
+        "    } " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+				<!-- Neighbor content -->
+			     <ul class="pager">
+			         <li class="previous">
+			             <a href="http://518.is/China-stock-p_change-scatter.html">
+			                 ← A股涨跌情况散点图
+			             </a>
+			         </li>
+			         <li class="next"> 
+			             <a href="http://518.is/What-can-a-beginner-do-with-Python.html">
+			                 初学python可以做什么 →
+			             </a>
+			         </li>
+			    </ul>
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="http://518.is/Jupyter-notebook-extension-install-and-manager.html">Jupyter Notebook 扩展安装管理</a></li>
+    </ul>
+</section>
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'najablog'; // required: replace example with your forum shortname
+
+            var disqus_config = function () {
+                this.language = "zh";
+
+                        this.page.identifier = '2018-11-20-traval-search-query-weight-analysis';
+                        this.page.url = 'http://518.is/traval-search-query-weight-analysis.html';
+            };
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="http://weibo.com/fxmyk"><i class="fa fa-朝天吼微博-square fa-lg"></i> 朝天吼微博</a></li>
+    <li class="list-group-item"><a href="#"><i class="fa fa-another-social-link-square fa-lg"></i> Another social link</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://sostc.org/" target="_blank">公司朝天吼官网</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://shop101144854.taobao.com" target="_blank">数据产品淘宝店</a>
+    </li>
+    <li class="list-group-item">
+      <a href="#" target="_blank">You can ask me to modify those links </a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">
+			&copy; 2018 spark
+            &middot;  <a href="/ipython" target="_blank">Notebook入口</a>,
+            <a href="http://data.518.is/data/jinshi" target="_blank">进士股票</a>,
+            <a href="http://data.518.is/zf" target="_blank">涨幅统计</a>                <p><small>  <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh"><img alt="Creative Commons License" style="border-width:0" src="//i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
+    Content
+  licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh">Creative Commons Attribution-ShareAlike 4.0 International License</a>, except where indicated otherwise.
+</small></p>
+         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://518.is/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://518.is/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://518.is/theme/js/respond.min.js"></script>
+
+
+    <!-- Disqus -->
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'najablog'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <!-- End Disqus Code -->
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-4002013-9']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+
+
+</body>
+</html>
